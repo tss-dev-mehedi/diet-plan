@@ -74,7 +74,7 @@
 </div>
 
 <script>
-// ===== Motivational ticker =====
+
 const tickerEl = document.getElementById('ticker');
 const motivationLines = [
   'আজকের দিনটি শক্তিশালীভাবে শুরু করুন!',
@@ -88,9 +88,9 @@ function updateTicker(){
   tickerEl.innerHTML = '<span>' + motivationLines[index] + ' ✨ </span>';
 }
 updateTicker();
-setInterval(updateTicker, 1000*60*60*24); // update daily
+setInterval(updateTicker, 1000*60*60*24); 
 
-// ===== Schedule data =====
+
 const schedule = [
   {id:'sleep', time:'রাত ১১:০০ – ভোর ৫:৩০', start:'23:00', end:'05:30', title:'ঘুম', detail:'৬.৫–৭ ঘণ্টা ঘুম জরুরি।', emoji:'😴'},
   {id:'fajr', time:'ভোর ৫:৩০ – ৬:০০', start:'05:30', end:'06:00', title:'ফজর নামাজ', detail:'নামাজ + দোয়া, হালকা স্ট্রেচিং।', emoji:'🕌'},
@@ -104,7 +104,6 @@ const schedule = [
   {id:'bed', time:'রাত ১১:০০', start:'23:00', end:'23:30', title:'শয্যায় যান', detail:'আজকের দিন শেষ, কাল নতুন উদ্যমে শুরু করুন।', emoji:'🛏️'}
 ];
 
-// ===== Render Schedule =====
 function renderSchedule() {
   const tbody = document.querySelector("#scheduleTable tbody");
   tbody.innerHTML = "";
@@ -133,7 +132,6 @@ function renderSchedule() {
   });
 }
 
-// ===== Score check =====
 function checkScore(){
   const allChecked = schedule.every(item => document.getElementById(chk-${item.id}).checked);
   const scoreBox = document.getElementById("scoreBox");
@@ -148,7 +146,6 @@ function checkScore(){
   }
 }
 
-// ===== Init =====
 renderSchedule();
 </script>
 </body>
