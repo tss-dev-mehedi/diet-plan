@@ -55,7 +55,7 @@
     <table id="scheduleTable">
       <thead>
         <tr>
-          <th>সময়</th>
+          <th>সময়</th>
           <th>কী করবেন</th>
           <th>বিস্তারিত</th>
           <th class="action">স্ট্যাটাস</th>
@@ -69,7 +69,7 @@
       <div class="pill" id="scoreText"></div>
       <div class="small" id="scoreDetail"></div>
     </div>
-    <div class="hint">টিপ: প্রতিবার চেক করলে সময় স্বয়ংক্রিয়ভাবে সেভ হয়।</div>
+    <div class="hint">টিপ: প্রতিবার চেক করলে সময় স্বয়ংক্রিয়ভাবে সেভ হয়।</div>
   </div>
 </div>
 
@@ -78,10 +78,10 @@
 const tickerEl = document.getElementById('ticker');
 const motivationLines = [
   'আজকের দিনটি শক্তিশালীভাবে শুরু করুন!',
-  'সঠিক সময়ের অনুশীলন আপনাকে সফল করে।',
+  'সঠিক সময়ের অনুশীলন আপনাকে সফল করে।',
   'প্রতিদিনের ছোট চেষ্টাই বড় ফল আনে।',
-  'নিজেকে সময় দিন, নিজের জন্য কাজ করুন।',
-  'শৃঙ্খলা বজায় রাখলে স্বাস্থ্য থাকবে ভালো।'];
+  'নিজেকে সময় দিন, নিজের জন্য কাজ করুন।',
+  'শৃঙ্খলা বজায় রাখলে স্বাস্থ্য থাকবে ভালো।'];
 function updateTicker(){
   const today = new Date();
   const index = today.getDate() % motivationLines.length;
@@ -93,15 +93,15 @@ setInterval(updateTicker, 1000*60*60*24);
 
 const schedule = [
   {id:'sleep', time:'রাত ১১:০০ – ভোর ৫:৩০', start:'23:00', end:'05:30', title:'ঘুম', detail:'৬.৫–৭ ঘণ্টা ঘুম জরুরি।', emoji:'😴'},
-  {id:'fajr', time:'ভোর ৫:৩০ – ৬:০০', start:'05:30', end:'06:00', title:'ফজর নামাজ', detail:'নামাজ + দোয়া, হালকা স্ট্রেচিং।', emoji:'🕌'},
-  {id:'fast', time:'ভোর ৬:০০ – দুপুর ১২:০০', start:'06:00', end:'12:00', title:'উপোস সময়', detail:'শুধু পানি/লেবু পানি/গ্রিন টি/ব্ল্যাক কফি।', emoji:'🚫'},
+  {id:'fajr', time:'ভোর ৫:৩০ – ৬:০০', start:'05:30', end:'06:00', title:'ফজর নামাজ', detail:'নামাজ + দোয়া, হালকা স্ট্রেচিং।', emoji:'🕌'},
+  {id:'fast', time:'ভোর ৬:০০ – দুপুর ১২:০০', start:'06:00', end:'12:00', title:'উপোস সময়', detail:'শুধু পানি/লেবু পানি/গ্রিন টি/ব্ল্যাক কফি।', emoji:'🚫'},
   {id:'lunch', time:'দুপুর ১২:৩০', start:'12:00', end:'13:30', title:'প্রথম খাবার (Lunch)', detail:'ভাত ১ কাপ + ডাল + প্রোটিন + সবজি + সালাদ।', emoji:'🍛'},
-  {id:'snack', time:'বিকেল ৪:০০', start:'15:30', end:'16:30', title:'Snack/চা টাইম', detail:'গ্রিন টি + সেদ্ধ ডিম/বাদাম/ছোলা/মুড়ি-শসা।', emoji:'☕'},
-  {id:'exercise', time:'সন্ধ্যা ৬:৩০ – ৭:০০', start:'18:30', end:'19:00', title:'হালকা ব্যায়াম/হাঁটা', detail:'স্কোয়াট, ওয়াল পুশআপ, স্ট্রেচিং বা ১৫ মিনিট হাঁটা।', emoji:'🏃'},
+  {id:'snack', time:'বিকেল ৪:০০', start:'15:30', end:'16:30', title:'Snack/চা টাইম', detail:'গ্রিন টি + সেদ্ধ ডিম/বাদাম/ছোলা/মুড়ি-শসা।', emoji:'☕'},
+  {id:'exercise', time:'সন্ধ্যা ৬:৩০ – ৭:০০', start:'18:30', end:'19:00', title:'হালকা ব্যায়াম/হাঁটা', detail:'স্কোয়াট, ওয়াল পুশআপ, স্ট্রেচিং বা ১৫ মিনিট হাঁটা।', emoji:'🏃'},
   {id:'dinner', time:'রাত ৭:৩০', start:'19:00', end:'20:30', title:'শেষ খাবার (Dinner)', detail:'অল্প ভাত/সবজি/ডাল/প্রোটিন + সালাদ।', emoji:'🍲'},
-  {id:'work', time:'রাত ৮:০০ – ১০:৩০', start:'20:00', end:'22:30', title:'কাজ/অবসর সময়', detail:'পানি খাবেন, ভারী খাবার নয়।', emoji:'💻'},
-  {id:'prep', time:'রাত ১০:৩০ – ১১:০০', start:'22:30', end:'23:00', title:'ঘুমের প্রস্তুতি', detail:'স্ক্রিন টাইম কমান, পড়া/দোয়া/মেডিটেশন।', emoji:'🌙'},
-  {id:'bed', time:'রাত ১১:০০', start:'23:00', end:'23:30', title:'শয্যায় যান', detail:'আজকের দিন শেষ, কাল নতুন উদ্যমে শুরু করুন।', emoji:'🛏️'}
+  {id:'work', time:'রাত ৮:০০ – ১০:৩০', start:'20:00', end:'22:30', title:'কাজ/অবসর সময়', detail:'পানি খাবেন, ভারী খাবার নয়।', emoji:'💻'},
+  {id:'prep', time:'রাত ১০:৩০ – ১১:০০', start:'22:30', end:'23:00', title:'ঘুমের প্রস্তুতি', detail:'স্ক্রিন টাইম কমান, পড়া/দোয়া/মেডিটেশন।', emoji:'🌙'},
+  {id:'bed', time:'রাত ১১:০০', start:'23:00', end:'23:30', title:'শয্যায় যান', detail:'আজকের দিন শেষ, কাল নতুন উদ্যমে শুরু করুন।', emoji:'🛏️'}
 ];
 
 function renderSchedule() {
@@ -111,21 +111,21 @@ function renderSchedule() {
   schedule.forEach(item => {
     const tr = document.createElement("tr");
 
-    tr.innerHTML = 
+    tr.innerHTML = `
       <td class="time">${item.time}</td>
       <td>${item.emoji} ${item.title}</td>
       <td>${item.detail}</td>
       <td class="status" id="status-${item.id}"><span class="badge">⏳</span></td>
       <td><input type="checkbox" id="chk-${item.id}"></td>
-    ;
+    `;
 
     tbody.appendChild(tr);
 
-    document.getElementById(chk-${item.id}).addEventListener("change", (e)=>{
+    document.getElementById(`chk-${item.id}`).addEventListener("change", (e)=>{
       if(e.target.checked){
-        document.getElementById(status-${item.id}).innerHTML = '<span class="badge on">✔ অন টাইম</span>';
+        document.getElementById(`status-${item.id}`).innerHTML = '<span class="badge on">✔ অন টাইম</span>';
       } else {
-        document.getElementById(status-${item.id}).innerHTML = '<span class="badge">⏳</span>';
+        document.getElementById(`status-${item.id}`).innerHTML = '<span class="badge">⏳</span>';
       }
       checkScore();
     });
@@ -133,20 +133,48 @@ function renderSchedule() {
 }
 
 function checkScore(){
-  const allChecked = schedule.every(item => document.getElementById(chk-${item.id}).checked);
+  const allChecked = schedule.every(item => document.getElementById(`chk-${item.id}`).checked);
   const scoreBox = document.getElementById("scoreBox");
   const scoreText = document.getElementById("scoreText");
 
   if(allChecked){
     scoreBox.style.display = "flex";
     scoreText.className = "pill good";
-    scoreText.innerText = "🎉 Good! সব অন-টাইম সম্পন্ন হয়েছে!";
+    scoreText.innerText = "🎉 Good! সব অন-টাইম সম্পন্ন হয়েছে!";
   } else {
     scoreBox.style.display = "none";
   }
 }
 
 renderSchedule();
+
+// Add functionality for the buttons
+document.getElementById('todayBtn').addEventListener('click', function() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('bn-BD', {hour12: false});
+  alert(`বর্তমান সময়: ${timeString}`);
+});
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+  schedule.forEach(item => {
+    const checkbox = document.getElementById(`chk-${item.id}`);
+    const status = document.getElementById(`status-${item.id}`);
+    checkbox.checked = false;
+    status.innerHTML = '<span class="badge">⏳</span>';
+  });
+  document.getElementById("scoreBox").style.display = "none";
+});
+
+// Update current time display
+function updateCurrentTime() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('bn-BD', {hour12: false});
+  document.getElementById('currentTime').textContent = timeString;
+}
+
+updateCurrentTime();
+setInterval(updateCurrentTime, 1000);
+
 </script>
 </body>
 </html>
