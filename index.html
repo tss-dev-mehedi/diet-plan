@@ -101,8 +101,55 @@ const schedule = [
   {id:'dinner', time:'রাত ৭:৩০', start:'19:00', end:'20:30', title:'শেষ খাবার (Dinner)', detail:'অল্প ভাত/সবজি/ডাল/প্রোটিন + সালাদ।', emoji:'🍲'},
   {id:'work', time:'রাত ৮:০০ – ১০:৩০', start:'20:00', end:'22:30', title:'কাজ/অবসর সময়', detail:'পানি খাবেন, ভারী খাবার নয়।', emoji:'💻'},
   {id:'prep', time:'রাত ১০:৩০ – ১১:০০', start:'22:30', end:'23:00', title:'ঘুমের প্রস্তুতি', detail:'স্ক্রিন টাইম কমান, পড়া/দোয়া/মেডিটেশন।', emoji:'🌙'},
-  }
+  {id:'bed', time:'রাত ১১:০০', start:'23:00', end:'23:30', title:'শয্যায় যান', detail:'আজকের দিন শেষ, কাল নতুন উদ্যমে শুরু করুন।', emoji:'🛏️'}
+];
 
-  </script>
+// ===== Render Schedule =====
+function renderSchedule() {
+  const tbody = document.querySelector("#scheduleTable tbody");
+  tbody.innerHTML = "";
+
+  schedule.forEach(item => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = 
+      <td class="time">${item.time}</td>
+      <td>${item.emoji} ${item.title}</td>
+      <td>${item.detail}</td>
+      <td class="status" id="status-${item.id}"><span class="badge">⏳</span></td>
+      <td><input type="checkbox" id="chk-${item.id}"></td>
+    ;
+
+    tbody.appendChild(tr);
+
+    document.getElementById(chk-${item.id}).addEventListener("change", (e)=>{
+      if(e.target.checked){
+        document.getElementById(status-${item.id}).innerHTML = '<span class="badge on">✔ অন টাইম</span>';
+      } else {
+        document.getElementById(status-${item.id}).innerHTML = '<span class="badge">⏳</span>';
+      }
+      checkScore();
+    });
+  });
+}
+
+// ===== Score check =====
+function checkScore(){
+  const allChecked = schedule.every(item => document.getElementById(chk-${item.id}).checked);
+  const scoreBox = document.getElementById("scoreBox");
+  const scoreText = document.getElementById("scoreText");
+
+  if(allChecked){
+    scoreBox.style.display = "flex";
+    scoreText.className = "pill good";
+    scoreText.innerText = "🎉 Good! সব অন-টাইম সম্পন্ন হয়েছে!";
+  } else {
+    scoreBox.style.display = "none";
+  }
+}
+
+// ===== Init =====
+renderSchedule();
+</script>
 </body>
 </html>
