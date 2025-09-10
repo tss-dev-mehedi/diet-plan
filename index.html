@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Intermittent Fasting Schedule - Checklist</title>
+  <title>Intermittent Fasting Schedule - Enhanced Tracker</title>
   <style>
     :root{
       --bg:#f7fafc; --card:#ffffff; --accent:#0ea5a6; --muted:#6b7280;
       --good:#16a34a; --warn:#f59e0b; --danger:#ef4444;
     }
     body{font-family: 'Noto Sans Bengali', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#111827; margin:0; padding:24px;}
-    .container{max-width:980px;margin:0 auto}
+    .container{max-width:1200px;margin:0 auto}
     h1{font-size:20px;margin:0 0 12px}
     .lead{margin:0 0 18px;color:var(--muted)}
-    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:20px}
     table{width:100%;border-collapse:collapse;font-size:14px}
     th,td{padding:12px 10px;text-align:left;vertical-align:middle}
     thead th{background:linear-gradient(90deg,#0ea5a6,#06b6d4);color:white;border-radius:8px}
@@ -26,6 +26,7 @@
     .on{background:var(--good);color:white}
     .late{background:var(--warn);color:#111827}
     .miss{background:var(--danger);color:white}
+    .pending{background:#e5e7eb;color:#374151}
     .score{display:flex;align-items:center;gap:12px;margin-top:14px}
     .score .pill{padding:10px 14px;border-radius:999px;font-weight:700}
     .score .good{background:linear-gradient(90deg,#16a34a33,#16a34a);color:white}
@@ -37,39 +38,67 @@
     .ticker{overflow:hidden;white-space:nowrap;border-radius:8px;background:#d1fae5;color:#065f46;padding:10px;margin-bottom:12px; font-weight:600;}
     .ticker span{display:inline-block;padding-right:50px;animation:slide 20s linear infinite;}
     @keyframes slide{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+    .history-table{font-size:12px}
+    .history-table th{font-size:11px;padding:8px 6px}
+    .history-table td{padding:6px 4px;text-align:center}
+    .day-score{padding:4px 8px;border-radius:999px;font-weight:600;font-size:11px}
+    .day-good{background:var(--good);color:white}
+    .day-ok{background:var(--warn);color:white}
+    .day-bad{background:var(--danger);color:white}
+    .grid-layout{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+    @media (max-width: 768px){
+      .grid-layout{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>Intermittent Fasting Schedule (Fajr Updated) — Checklist</h1>
+  <h1>Intermittent Fasting Schedule (Enhanced Tracker) — Checklist</h1>
   <div class="ticker" id="ticker">Motivation will scroll here...</div>
-  <p class="lead">প্রতিটি রোতে চেক করলে সিস্টেম যাচাই করবে। সব অন-টাইম হলে স্কোর হবে Good।</p>
+  <p class="lead">রিয়েল টাইমে স্ট্যাটাস আপডেট হবে। সময়ের চেয়ে দেরিতে চেক করলে 'Late' দেখাবে।</p>
 
-  <div class="card">
-    <div class="controls">
-      <button class="small-btn" id="todayBtn">আজকের স্ট্যাটাস দেখান</button>
-      <button class="small-btn" id="clearBtn">রিসেট (আজ)</button>
-      <div style="margin-left:auto;align-self:center" id="currentTime"></div>
+  <div class="grid-layout">
+    <div class="card">
+      <div class="controls">
+        <button class="small-btn" id="todayBtn">আজকের স্ট্যাটাস দেখান</button>
+        <div style="margin-left:auto;align-self:center" id="currentTime"></div>
+      </div>
+
+      <table id="scheduleTable">
+        <thead>
+          <tr>
+            <th>সময়</th>
+            <th>কী করবেন</th>
+            <th>বিস্তারিত</th>
+            <th class="action">স্ট্যাটাস</th>
+            <th class="action">চেক</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="score" id="scoreBox" style="display:none">
+        <div class="pill" id="scoreText"></div>
+        <div class="small" id="scoreDetail"></div>
+      </div>
+      <div class="hint">টিপ: সময়মতো চেক করলে 'অন টাইম', দেরিতে চেক করলে 'Late' দেখাবে।</div>
     </div>
 
-    <table id="scheduleTable">
-      <thead>
-        <tr>
-          <th>সময়</th>
-          <th>কী করবেন</th>
-          <th>বিস্তারিত</th>
-          <th class="action">স্ট্যাটাস</th>
-          <th class="action">চেক</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <div class="score" id="scoreBox" style="display:none">
-      <div class="pill" id="scoreText"></div>
-      <div class="small" id="scoreDetail"></div>
+    <div class="card">
+      <h3 style="margin:0 0 12px;font-size:16px">গত ৭ দিনের রেকর্ড</h3>
+      <table class="history-table" id="historyTable">
+        <thead>
+          <tr>
+            <th>তারিখ</th>
+            <th>স্কোর</th>
+            <th>অন টাইম</th>
+            <th>Late</th>
+            <th>Miss</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
     </div>
-    <div class="hint">টিপ: প্রতিবার চেক করলে সময় স্বয়ংক্রিয়ভাবে সেভ হয়।</div>
   </div>
 </div>
 
@@ -82,14 +111,13 @@ const motivationLines = [
   'প্রতিদিনের ছোট চেষ্টাই বড় ফল আনে।',
   'নিজেকে সময় দিন, নিজের জন্য কাজ করুন।',
   'শৃঙ্খলা বজায় রাখলে স্বাস্থ্য থাকবে ভালো।'];
+
 function updateTicker(){
   const today = new Date();
   const index = today.getDate() % motivationLines.length;
   tickerEl.innerHTML = '<span>' + motivationLines[index] + ' ✨ </span>';
 }
 updateTicker();
-setInterval(updateTicker, 1000*60*60*24); 
-
 
 const schedule = [
   {id:'sleep', time:'রাত ১১:০০ – ভোর ৫:৩০', start:'23:00', end:'05:30', title:'ঘুম', detail:'৬.৫–৭ ঘণ্টা ঘুম জরুরি।', emoji:'😴'},
@@ -104,65 +132,257 @@ const schedule = [
   {id:'bed', time:'রাত ১১:০০', start:'23:00', end:'23:30', title:'শয্যায় যান', detail:'আজকের দিন শেষ, কাল নতুন উদ্যমে শুরু করুন।', emoji:'🛏️'}
 ];
 
+// Storage functions
+function getTodayKey(){
+  return new Date().toDateString();
+}
+
+function getTodayData(){
+  const key = getTodayKey();
+  const data = JSON.parse(localStorage.getItem(key) || '{}');
+  return data;
+}
+
+function saveTodayData(data){
+  const key = getTodayKey();
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function parseTime(timeStr){
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  return hours * 60 + minutes;
+}
+
+function getCurrentMinutes(){
+  const now = new Date();
+  return now.getHours() * 60 + now.getMinutes();
+}
+
+function isWithinTimeWindow(startTime, endTime){
+  const currentMinutes = getCurrentMinutes();
+  const startMinutes = parseTime(startTime);
+  const endMinutes = parseTime(endTime);
+  
+  // Handle overnight periods (like sleep)
+  if(startMinutes > endMinutes){
+    return currentMinutes >= startMinutes || currentMinutes <= endMinutes;
+  }
+  
+  return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+}
+
+function isLate(endTime){
+  const currentMinutes = getCurrentMinutes();
+  const endMinutes = parseTime(endTime);
+  
+  // For overnight periods, check if it's past the end time in the morning
+  if(endTime === '05:30' && currentMinutes > endMinutes && currentMinutes < 12 * 60){
+    return true;
+  }
+  
+  return currentMinutes > endMinutes;
+}
+
 function renderSchedule() {
   const tbody = document.querySelector("#scheduleTable tbody");
   tbody.innerHTML = "";
+  const todayData = getTodayData();
 
   schedule.forEach(item => {
     const tr = document.createElement("tr");
+    const isChecked = todayData[item.id]?.checked || false;
+    const checkTime = todayData[item.id]?.checkTime;
 
     tr.innerHTML = `
       <td class="time">${item.time}</td>
       <td>${item.emoji} ${item.title}</td>
       <td>${item.detail}</td>
-      <td class="status" id="status-${item.id}"><span class="badge">⏳</span></td>
-      <td><input type="checkbox" id="chk-${item.id}"></td>
+      <td class="status" id="status-${item.id}"><span class="badge pending">⏳</span></td>
+      <td><input type="checkbox" id="chk-${item.id}" ${isChecked ? 'checked' : ''}></td>
     `;
 
     tbody.appendChild(tr);
 
+    // Update status based on current time and check status
+    updateItemStatus(item, isChecked, checkTime);
+
     document.getElementById(`chk-${item.id}`).addEventListener("change", (e)=>{
+      const now = new Date();
+      const currentTime = now.getTime();
+      
       if(e.target.checked){
-        document.getElementById(`status-${item.id}`).innerHTML = '<span class="badge on">✔ অন টাইম</span>';
+        // Save check data
+        const todayData = getTodayData();
+        todayData[item.id] = {
+          checked: true,
+          checkTime: currentTime
+        };
+        saveTodayData(todayData);
+        
+        updateItemStatus(item, true, currentTime);
       } else {
-        document.getElementById(`status-${item.id}`).innerHTML = '<span class="badge">⏳</span>';
+        // Remove check data
+        const todayData = getTodayData();
+        delete todayData[item.id];
+        saveTodayData(todayData);
+        
+        updateItemStatus(item, false, null);
       }
       checkScore();
     });
   });
 }
 
+function updateItemStatus(item, isChecked, checkTime){
+  const statusEl = document.getElementById(`status-${item.id}`);
+  
+  if(!isChecked){
+    // Check if current time is past the activity window
+    if(isLate(item.end)){
+      statusEl.innerHTML = '<span class="badge miss">❌ Miss</span>';
+    } else {
+      statusEl.innerHTML = '<span class="badge pending">⏳</span>';
+    }
+    return;
+  }
+  
+  // Item is checked, determine if it was on time or late
+  const checkDate = new Date(checkTime);
+  const checkMinutes = checkDate.getHours() * 60 + checkDate.getMinutes();
+  const endMinutes = parseTime(item.end);
+  
+  // For overnight activities like sleep, handle specially
+  if(item.id === 'sleep'){
+    statusEl.innerHTML = '<span class="badge on">✔ সম্পন্ন</span>';
+  } else if(checkMinutes <= endMinutes || isWithinTimeWindow(item.start, item.end)){
+    statusEl.innerHTML = '<span class="badge on">✔ অন টাইম</span>';
+  } else {
+    statusEl.innerHTML = '<span class="badge late">⏰ Late</span>';
+  }
+}
+
+function updateAllStatuses(){
+  const todayData = getTodayData();
+  schedule.forEach(item => {
+    const isChecked = todayData[item.id]?.checked || false;
+    const checkTime = todayData[item.id]?.checkTime;
+    updateItemStatus(item, isChecked, checkTime);
+  });
+}
+
 function checkScore(){
-  const allChecked = schedule.every(item => document.getElementById(`chk-${item.id}`).checked);
+  const todayData = getTodayData();
+  let onTime = 0, late = 0, miss = 0;
+  
+  schedule.forEach(item => {
+    const data = todayData[item.id];
+    if(!data?.checked){
+      if(isLate(item.end)){
+        miss++;
+      }
+      return;
+    }
+    
+    const checkDate = new Date(data.checkTime);
+    const checkMinutes = checkDate.getHours() * 60 + checkDate.getMinutes();
+    const endMinutes = parseTime(item.end);
+    
+    if(item.id === 'sleep' || checkMinutes <= endMinutes || isWithinTimeWindow(item.start, item.end)){
+      onTime++;
+    } else {
+      late++;
+    }
+  });
+  
   const scoreBox = document.getElementById("scoreBox");
   const scoreText = document.getElementById("scoreText");
-
-  if(allChecked){
+  const scoreDetail = document.getElementById("scoreDetail");
+  
+  if(onTime + late + miss > 0){
     scoreBox.style.display = "flex";
-    scoreText.className = "pill good";
-    scoreText.innerText = "🎉 Good! সব অন-টাইম সম্পন্ন হয়েছে!";
-  } else {
-    scoreBox.style.display = "none";
+    const total = onTime + late + miss;
+    const percentage = Math.round((onTime / schedule.length) * 100);
+    
+    if(percentage >= 80){
+      scoreText.className = "pill good";
+      scoreText.innerText = `🎉 Excellent! ${onTime}/${schedule.length} অন টাইম`;
+    } else if(percentage >= 60){
+      scoreText.className = "pill ok";
+      scoreText.innerText = `👍 Good! ${onTime}/${schedule.length} অন টাইম`;
+    } else {
+      scoreText.className = "pill bad";
+      scoreText.innerText = `💪 চেষ্টা করুন! ${onTime}/${schedule.length} অন টাইম`;
+    }
+    
+    scoreDetail.innerText = `Late: ${late}, Miss: ${miss}`;
+  }
+}
+
+function renderHistory(){
+  const historyBody = document.getElementById('historyBody');
+  historyBody.innerHTML = '';
+  
+  for(let i = 0; i < 7; i++){
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateKey = date.toDateString();
+    const data = JSON.parse(localStorage.getItem(dateKey) || '{}');
+    
+    let onTime = 0, late = 0, miss = 0;
+    
+    schedule.forEach(item => {
+      const itemData = data[item.id];
+      if(!itemData?.checked){
+        miss++;
+        return;
+      }
+      
+      const checkDate = new Date(itemData.checkTime);
+      const checkMinutes = checkDate.getHours() * 60 + checkDate.getMinutes();
+      const endMinutes = parseTime(item.end);
+      
+      if(item.id === 'sleep' || checkMinutes <= endMinutes){
+        onTime++;
+      } else {
+        late++;
+      }
+    });
+    
+    const total = onTime + late + miss;
+    const percentage = total > 0 ? Math.round((onTime / schedule.length) * 100) : 0;
+    
+    let scoreClass = 'day-bad';
+    if(percentage >= 80) scoreClass = 'day-good';
+    else if(percentage >= 60) scoreClass = 'day-ok';
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${date.toLocaleDateString('bn-BD', {day: 'numeric', month: 'short'})}</td>
+      <td><span class="day-score ${scoreClass}">${percentage}%</span></td>
+      <td>${onTime}</td>
+      <td>${late}</td>
+      <td>${miss}</td>
+    `;
+    historyBody.appendChild(tr);
   }
 }
 
 renderSchedule();
+checkScore();
+renderHistory();
 
-// Add functionality for the buttons
+// Update statuses every minute
+setInterval(() => {
+  updateAllStatuses();
+  checkScore();
+}, 60000);
+
 document.getElementById('todayBtn').addEventListener('click', function() {
   const now = new Date();
   const timeString = now.toLocaleTimeString('bn-BD', {hour12: false});
-  alert(`বর্তমান সময়: ${timeString}`);
-});
-
-document.getElementById('clearBtn').addEventListener('click', function() {
-  schedule.forEach(item => {
-    const checkbox = document.getElementById(`chk-${item.id}`);
-    const status = document.getElementById(`status-${item.id}`);
-    checkbox.checked = false;
-    status.innerHTML = '<span class="badge">⏳</span>';
-  });
-  document.getElementById("scoreBox").style.display = "none";
+  const todayData = getTodayData();
+  const completed = Object.keys(todayData).length;
+  alert(`বর্তমান সময়: ${timeString}\nআজ সম্পন্ন: ${completed}/${schedule.length}`);
 });
 
 // Update current time display
